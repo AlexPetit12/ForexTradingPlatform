@@ -10,6 +10,10 @@
 #ifndef EVENT_H
 #define EVENT_H
 
+/**
+ * \class Event
+ * \brief Generates an Event object
+ */
 class Event {
 public:
     Event();

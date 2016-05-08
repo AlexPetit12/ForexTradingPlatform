@@ -10,6 +10,10 @@
 
 #include "Event.h"
 
+/**
+ * \class TickEvent
+ * \brief Generates a TickEvent object
+ */
 class TickEvent : public Event {
 public:
     TickEvent();
