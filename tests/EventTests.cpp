@@ -24,12 +24,18 @@ void EventTests::tearDown() {
 }
 
 void EventTests::testEvent() {
+    // Variables to test constructor and getters
     std::string firstType =        "TICK";
     std::string firstInstrument =  "EUR_USD";
-    std::string secondType =       "EVENT";
-    std::string secondInstrument = "CAN_JPN";
     
     Event E(firstType, firstInstrument);
+    
+    CPPUNIT_ASSERT_EQUAL(firstType, E.getType());
+    CPPUNIT_ASSERT_EQUAL(firstInstrument, E.getInstrument());
+    
+    // New variables to test setters
+    std::string secondType =       "EVENT";
+    std::string secondInstrument = "CAN_JPN";
     
     E.setType(secondType);
     E.setInstrument(secondInstrument);
