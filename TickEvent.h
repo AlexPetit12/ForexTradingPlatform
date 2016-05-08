@@ -17,6 +17,15 @@ public:
               double bid_, double ask_);
     virtual ~TickEvent();
     
+    std::string getTime();
+    void setTime(std::string time_);
+    
+    double getBid();
+    void setBid(double bid_);
+    
+    double getAsk();
+    void setAsk(double ask_);
+    
 private:
     std::string m_time;
     double m_bid;
