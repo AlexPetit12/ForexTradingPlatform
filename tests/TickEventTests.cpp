@@ -7,6 +7,7 @@
 
 #include "TickEventTests.h"
 
+#include "../TickEvent.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TickEventTest);
 

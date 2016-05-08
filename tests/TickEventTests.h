@@ -10,8 +10,6 @@
 
 #include <cppunit/extensions/HelperMacros.h>
 
-#include "../TickEvent.h"
-
 class TickEventTest : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(TickEventTest);
 
