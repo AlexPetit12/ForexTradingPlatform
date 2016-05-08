@@ -18,6 +18,9 @@ public:
     
     std::string getType();
     std::string getInstrument();
+    
+    void setType(std::string type_);
+    void setInstrument(std::string instrument_);
 
 protected:
     std::string m_type;

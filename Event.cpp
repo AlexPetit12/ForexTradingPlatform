@@ -30,3 +30,13 @@ std::string Event::getInstrument()
 {
     return m_instrument;
 }
+
+void Event::setType(std::string type_)
+{
+    m_type = type_;
+}
+
+void Event::setInstrument(std::string instrument_)
+{
+    m_instrument = instrument_;
+}
