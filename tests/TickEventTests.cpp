@@ -1,38 +1,36 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/*
- * File:   TickEventTests.cpp
+ * File:   TickEventTest.cpp
  * Author: alexandrepetit
  *
- * Created on May 7, 2016, 5:02:32 PM
+ * Created on May 7, 2016, 5:21:12 PM
  */
 
-#include "TickEventTests.h"
+#include "TickEventTest.h"
 
 
-CPPUNIT_TEST_SUITE_REGISTRATION(TickEventTests);
+CPPUNIT_TEST_SUITE_REGISTRATION(TickEventTest);
 
-TickEventTests::TickEventTests() {
+TickEventTest::TickEventTest() {
 }
 
-TickEventTests::~TickEventTests() {
+TickEventTest::~TickEventTest() {
 }
 
-void TickEventTests::setUp() {
+void TickEventTest::setUp() {
 }
 
-void TickEventTests::tearDown() {
+void TickEventTest::tearDown() {
 }
 
-void TickEventTests::testMethod() {
-    CPPUNIT_ASSERT(true);
-}
-
-void TickEventTests::testFailedMethod() {
-    CPPUNIT_ASSERT(false);
+void TickEventTest::testConstructor() {
+    std::string type = "TICK";
+    std::string instrument = "EUR_USD";
+    std::string theTime = "12:34:56";
+    double      bid = 10.5;
+    double      ask = 10.7;
+    
+    TickEvent T(type, instrument, theTime, bid, ask);
+    
+    CPPUNIT_ASSERT_EQUAL(type, T.getType());
 }
 
