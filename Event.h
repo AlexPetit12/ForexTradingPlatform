@@ -17,9 +17,9 @@ public:
     virtual ~Event();
     
     std::string getType();
-    std::string getInstrument();
-    
     void setType(std::string type_);
+    
+    std::string getInstrument();
     void setInstrument(std::string instrument_);
 
 protected:

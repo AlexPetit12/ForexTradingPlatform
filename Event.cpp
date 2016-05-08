@@ -26,14 +26,14 @@ std::string Event::getType()
     return m_type;
 }
 
-std::string Event::getInstrument()
-{
-    return m_instrument;
-}
-
 void Event::setType(std::string type_)
 {
     m_type = type_;
+}
+
+std::string Event::getInstrument()
+{
+    return m_instrument;
 }
 
 void Event::setInstrument(std::string instrument_)
