@@ -5,7 +5,7 @@
  * Created on May 7, 2016, 5:21:12 PM
  */
 
-#include "TickEventTest.h"
+#include "TickEventTests.h"
 
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TickEventTest);
