@@ -26,3 +26,7 @@ std::string Event::getType()
     return m_type;
 }
 
+std::string Event::getInstrument()
+{
+    return m_instrument;
+}
