@@ -21,9 +21,9 @@ TickEvent::TickEvent()
  * @param bid_
  * @param ask_
  */
-TickEvent::TickEvent(std::string type_, std::string instrument_, 
-                     std::string time_, double bid_, double ask_) :
-        Event(type_, instrument_),
+TickEvent::TickEvent(std::string instrument_, std::string time_, 
+                     double bid_, double ask_) :
+        Event("TICK", instrument_),
         m_time(time_),
         m_bid(bid_),
         m_ask(ask_)

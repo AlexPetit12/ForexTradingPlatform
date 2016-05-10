@@ -18,7 +18,7 @@ double      ask = 10.7;
     
 int main(int argc, char** argv) {
     
-    TickEvent T(type, instrument, theTime, bid, ask);
+    TickEvent T(instrument, theTime, bid, ask);
     std::cout << T.getType() << std::endl;
     
     return 0;

@@ -25,15 +25,15 @@ void OrderEventTests::tearDown() {
 
 void OrderEventTests::testConstructor() {
     // Variables to test constructor and getters
-    std::string firstType =       "TICK";
+    //std::string firstType =       "TICK";
     std::string firstInstrument = "EUR_USD";
     int firstUnits =              10;
     std::string firstOrderType =  "MKT";
     std::string firstSide =       "LONG";
     
-    OrderEvent O(firstType, firstInstrument, firstUnits, firstOrderType, firstSide);
+    OrderEvent O(firstInstrument, firstUnits, firstOrderType, firstSide);
     
-    CPPUNIT_ASSERT_EQUAL(firstType, O.getType());
+    //CPPUNIT_ASSERT_EQUAL(firstType, O.getType());
     CPPUNIT_ASSERT_EQUAL(firstInstrument, O.getInstrument());
     CPPUNIT_ASSERT_EQUAL(firstUnits, O.getUnits());
     CPPUNIT_ASSERT_EQUAL(firstOrderType, O.getOrderType());

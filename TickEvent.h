@@ -17,7 +17,7 @@
 class TickEvent : public Event {
 public:
     TickEvent();
-    TickEvent(std::string type_, std::string instrument_, std::string time_, 
+    TickEvent(std::string instrument_, std::string time_, 
               double bid_, double ask_);
     virtual ~TickEvent();
     

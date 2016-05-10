@@ -25,15 +25,15 @@ void TickEventTest::tearDown() {
 
 void TickEventTest::testConstructor() {
     // Variables to test constructor and getters
-    std::string firstType =       "TICK";
+    //std::string firstType =       "TICK";
     std::string firstInstrument = "EUR_USD";
     std::string firstTime =       "12:34:56";
     double      firstBid =        10.5;
     double      firstAsk =        10.7;
     
-    TickEvent T(firstType, firstInstrument, firstTime, firstBid, firstAsk);
+    TickEvent T(firstInstrument, firstTime, firstBid, firstAsk);
     
-    CPPUNIT_ASSERT_EQUAL(firstType, T.getType());
+    //CPPUNIT_ASSERT_EQUAL(firstType, T.getType());
     CPPUNIT_ASSERT_EQUAL(firstInstrument, T.getInstrument());
     CPPUNIT_ASSERT_EQUAL(firstTime, T.getTime());
     CPPUNIT_ASSERT_EQUAL(firstBid, T.getBid());

@@ -18,7 +18,7 @@ class OrderEvent : public Event
 {
 public:
     OrderEvent();
-    OrderEvent(std::string type_, std::string instrument_, int units_,
+    OrderEvent(std::string instrument_, int units_,
                std::string orderType_, std::string side_);
     virtual ~OrderEvent();
     

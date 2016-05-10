@@ -20,9 +20,9 @@ OrderEvent::OrderEvent() {
  * @param orderType_
  * @param side_
  */
-OrderEvent::OrderEvent(std::string type_, std::string instrument_, int units_,
+OrderEvent::OrderEvent(std::string instrument_, int units_,
                        std::string orderType_, std::string side_) :
-        Event(type_, instrument_),
+        Event("ORDER", instrument_),
         m_units(units_),
         m_orderType(orderType_),
         m_side(side_)
