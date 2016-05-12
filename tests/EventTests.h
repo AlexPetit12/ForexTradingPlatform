@@ -13,7 +13,7 @@
 class EventTests : public CPPUNIT_NS::TestFixture {
     CPPUNIT_TEST_SUITE(EventTests);
 
-    CPPUNIT_TEST(testEvent);
+    CPPUNIT_TEST(testConstructor);
 
     CPPUNIT_TEST_SUITE_END();
 
@@ -24,7 +24,7 @@ public:
     void tearDown();
 
 private:
-    void testEvent();
+    void testConstructor();
 };
 
 #endif /* EVENTTESTS_H */

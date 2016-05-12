@@ -7,7 +7,7 @@
 
 #include "OrderEventTests.h"
 
-#include "../OrderEvent.h"
+#include "../src/OrderEvent.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(OrderEventTests);
 
@@ -25,7 +25,6 @@ void OrderEventTests::tearDown() {
 
 void OrderEventTests::testConstructor() {
     // Variables to test constructor and getters
-    //std::string firstType =       "TICK";
     std::string firstInstrument = "EUR_USD";
     int firstUnits =              10;
     std::string firstOrderType =  "MKT";
@@ -33,14 +32,13 @@ void OrderEventTests::testConstructor() {
     
     OrderEvent O(firstInstrument, firstUnits, firstOrderType, firstSide);
     
-    //CPPUNIT_ASSERT_EQUAL(firstType, O.getType());
     CPPUNIT_ASSERT_EQUAL(firstInstrument, O.getInstrument());
     CPPUNIT_ASSERT_EQUAL(firstUnits, O.getUnits());
     CPPUNIT_ASSERT_EQUAL(firstOrderType, O.getOrderType());
     CPPUNIT_ASSERT_EQUAL(firstSide, O.getSide());
     
     // New variables to test setters
-    std::string secondType =       "Order";
+    std::string secondType =       "TEST";
     std::string secondInstrument = "CAN_JPN";
     int secondUnits =              20;
     std::string secondOrderType =  "LMT";

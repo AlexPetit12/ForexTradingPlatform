@@ -7,7 +7,7 @@
 
 #include "EventTests.h"
 
-#include "../Event.h"
+#include "../src/Event.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(EventTests);
 
@@ -23,7 +23,7 @@ void EventTests::setUp() {
 void EventTests::tearDown() {
 }
 
-void EventTests::testEvent() {
+void EventTests::testConstructor() {
     // Variables to test constructor and getters
     std::string firstType =        "TICK";
     std::string firstInstrument =  "EUR_USD";
@@ -34,7 +34,7 @@ void EventTests::testEvent() {
     CPPUNIT_ASSERT_EQUAL(firstInstrument, E.getInstrument());
     
     // New variables to test setters
-    std::string secondType =       "EVENT";
+    std::string secondType =       "TEST";
     std::string secondInstrument = "CAN_JPN";
     
     E.setType(secondType);

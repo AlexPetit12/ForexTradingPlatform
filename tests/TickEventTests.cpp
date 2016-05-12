@@ -7,7 +7,7 @@
 
 #include "TickEventTests.h"
 
-#include "../TickEvent.h"
+#include "../src/TickEvent.h"
 
 CPPUNIT_TEST_SUITE_REGISTRATION(TickEventTest);
 
@@ -40,7 +40,7 @@ void TickEventTest::testConstructor() {
     CPPUNIT_ASSERT_EQUAL(firstAsk, T.getAsk());
     
     // New variables to test setters
-    std::string secondType =       "Order";
+    std::string secondType =       "TEST";
     std::string secondInstrument = "CAN_JPN";
     std::string secondTime =       "05:21:56";
     double      secondBid =        21.5;
