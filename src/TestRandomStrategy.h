@@ -16,7 +16,7 @@ public:
                        eventsQueue& eventsQueue_);
     virtual ~TestRandomStrategy();
     
-    int getTicks();
+    int getTicks() const;
     void setTicks(int totalTicks_);
     
     void increaseTicks(int increase_ = 1);
