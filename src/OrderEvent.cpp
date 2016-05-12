@@ -39,7 +39,7 @@ OrderEvent::~OrderEvent()
 /**
  * @return m_units
  */
-int OrderEvent::getUnits()
+int OrderEvent::getUnits() const
 {
     return m_units;
 }
@@ -55,7 +55,7 @@ void OrderEvent::setUnits(int units_)
 /**
  * @return m_orderType
  */
-std::string OrderEvent::getOrderType()
+std::string OrderEvent::getOrderType() const
 {
     return m_orderType;
 }
@@ -71,7 +71,7 @@ void OrderEvent::setOrderType(std::string orderType_)
 /**
  * @return m_side
  */
-std::string OrderEvent::getSide()
+std::string OrderEvent::getSide() const
 {
     return m_side;
 }

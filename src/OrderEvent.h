@@ -22,13 +22,13 @@ public:
                std::string orderType_, std::string side_);
     virtual ~OrderEvent();
     
-    int getUnits();
+    int getUnits() const;
     void setUnits(int units_);
     
-    std::string getOrderType();
+    std::string getOrderType() const;
     void setOrderType(std::string orderType_);
     
-    std::string getSide();
+    std::string getSide() const;
     void setSide(std::string side_);
     
 private:

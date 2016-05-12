@@ -40,7 +40,7 @@ TickEvent::~TickEvent()
 /**
  * @return m_time
  */
-std::string TickEvent::getTime()
+std::string TickEvent::getTime() const
 {
     return m_time;
 }
@@ -56,7 +56,7 @@ void TickEvent::setTime(std::string time_)
 /**
  * @return m_bid
  */
-double TickEvent::getBid()
+double TickEvent::getBid() const
 {
     return m_bid;
 }
@@ -72,7 +72,7 @@ void TickEvent::setBid(double bid_)
 /**
  * @return m_ask
  */
-double TickEvent::getAsk()
+double TickEvent::getAsk() const
 {
     return m_ask;
 }

@@ -25,10 +25,10 @@ public:
     Event(std::string type_, std::string instrument_);
     virtual ~Event();
     
-    std::string getType();
+    std::string getType() const;
     void setType(std::string type_);
     
-    std::string getInstrument();
+    std::string getInstrument() const;
     void setInstrument(std::string instrument_);
 
 protected:

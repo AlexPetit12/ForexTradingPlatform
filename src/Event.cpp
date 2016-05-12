@@ -34,7 +34,7 @@ Event::~Event()
 /**
  * @return m_type
  */
-std::string Event::getType()
+std::string Event::getType() const
 {
     return m_type;
 }
@@ -50,7 +50,7 @@ void Event::setType(std::string type_)
 /**
  * @return m_instrument
  */
-std::string Event::getInstrument()
+std::string Event::getInstrument() const
 {
     return m_instrument;
 }
