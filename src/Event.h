@@ -5,15 +5,12 @@
  * Created on May 7, 2016, 3:18 PM
  */
 
+#ifndef EVENT_H
+#define EVENT_H
 
 #include <memory>
 #include <queue>
 #include <string>
-
-#ifndef EVENT_H
-#define EVENT_H
-
-#define eventsQueue std::queue<std::unique_ptr<Event>>
 
 /**
  * \class Event
@@ -36,6 +33,8 @@ protected:
     std::string m_instrument;
 
 };
+
+typedef std::queue<std::unique_ptr<Event>> eventsQueue;
 
 #endif /* EVENT_H */
 
