@@ -8,11 +8,11 @@
 #ifndef TESTRANDOMSTRATEGY_H
 #define TESTRANDOMSTRATEGY_H
 
-#include "OrderEvent.h"
+#include "TickEvent.h"
 
 class TestRandomStrategy {
 public:
-    TestRandomStrategy(std::string instrument_, int units_, 
+    TestRandomStrategy(const std::string& instrument_, const std::string& unitsQty_, 
                        eventsQueue& eventsQueue_);
     virtual ~TestRandomStrategy();
     
@@ -20,11 +20,11 @@ public:
     void setTicks(int totalTicks_);
     
     void increaseTicks(int increase_ = 1);
-    void calculateSignals(Event& event_);
+    void calculateSignals(const TickEvent* pTickEvent_);
    
 private:
     std::string m_instrument;
-    int m_units;
+    std::string m_unitsQty;
     eventsQueue& m_eventsQueue;
     int m_ticks;
 

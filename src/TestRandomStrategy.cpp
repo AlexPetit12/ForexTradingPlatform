@@ -7,7 +7,10 @@
 
 #include "TestRandomStrategy.h"
 
+#include "OrderEvent.h"
+
 #include <array>
+#include <iostream>
 #include <random>
 
 /**
@@ -15,10 +18,10 @@
  * @param units_
  * @param eventsQueue_
  */
-TestRandomStrategy::TestRandomStrategy(std::string instrument_, int units_, 
+TestRandomStrategy::TestRandomStrategy(const std::string& instrument_, const std::string& unitsQty_, 
                                        eventsQueue& eventsQueue_) :
         m_instrument(instrument_),
-        m_units(units_),
+        m_unitsQty(unitsQty_),
         m_eventsQueue(eventsQueue_),
         m_ticks(0)
 {
@@ -58,18 +61,17 @@ void TestRandomStrategy::increaseTicks(int increase_)
  * \brief Calculate signals for a random strategy
  * @param event_
  */
-void TestRandomStrategy::calculateSignals(Event& event_)
+void TestRandomStrategy::calculateSignals(const TickEvent* pTickEvent_)
 {
-    if(event_.getType() == "TICK")
+    if(pTickEvent_->getEventType() == "TICK")
     {
-        //increaseTicks();
-        if(getTicks() % 5 == 0)
+        if(getTicks() % 2 == 0)
         {
-            std::array<std::string, 2> sides = {"BUY", "SELL"};
+            std::array<std::string, 2> sides = {"buy", "sell"};
             int randomSide = rand() % 2;
             std::string side = sides.at(randomSide);
 	    m_eventsQueue.emplace(std::unique_ptr<OrderEvent>(
-                new OrderEvent(m_instrument, m_units, "MKT", side)));
+                new OrderEvent(m_instrument, m_unitsQty, "market", side)));
         }
         increaseTicks();
     }

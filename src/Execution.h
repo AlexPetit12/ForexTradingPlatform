@@ -8,7 +8,9 @@
 #ifndef EXECUTION_H
 #define EXECUTION_H
 
-//#include "OrderEvent.h"
+#include "OrderEvent.h"
+
+#include <memory>
 
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
@@ -19,24 +21,21 @@
 #include <Poco/URI.h>
 #include <Poco/Exception.h>
 
-using namespace Poco;
-using namespace Poco::Net;
-
 class Execution {
 public:
-    Execution(std::string domain_, std::string accessToken_, std::string accountId_);
+    Execution(const std::string& domain_, const std::string& accessToken_, const std::string& accountId_);
     ~Execution();
     
-    void executeOrder();
+    void executeOrder(const OrderEvent* pOrderEvent_);
 private:
     std::string m_domain;
     std::string m_accessToken;
     std::string m_accountId;
     
-    Context::Ptr*       m_context;
-    URI*                m_uri;
-    HTTPRequest*        m_request;
-    HTTPSClientSession* m_session;
+    Poco::Net::Context::Ptr*       m_context = nullptr;
+    Poco::URI*                     m_uri = nullptr;
+    Poco::Net::HTTPRequest*        m_request = nullptr;
+    Poco::Net::HTTPSClientSession* m_session = nullptr;
 };
 
 #endif /* EXECUTION_H */

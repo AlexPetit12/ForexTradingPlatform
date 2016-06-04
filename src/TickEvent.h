@@ -17,12 +17,12 @@
 class TickEvent : public Event {
 public:
     TickEvent();
-    TickEvent(std::string instrument_, std::string time_, 
+    TickEvent(const std::string& instrument_, const std::string& time_, 
               double bid_, double ask_);
     virtual ~TickEvent();
     
     std::string getTime() const;
-    void setTime(std::string time_);
+    void setTime(const std::string& time_);
     
     double getBid() const;
     void setBid(double bid_);

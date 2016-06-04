@@ -19,17 +19,18 @@
 class Event {
 public:
     Event();
-    Event(std::string type_, std::string instrument_);
+    Event(const std::string& type_, const std::string& instrument_);
     virtual ~Event();
+    Event& operator=(const Event &rhs);
     
-    std::string getType() const;
-    void setType(std::string type_);
+    std::string getEventType() const;
+    void setEventType(const std::string& type_);
     
     std::string getInstrument() const;
-    void setInstrument(std::string instrument_);
+    void setInstrument(const std::string& instrument_);
 
 protected:
-    std::string m_type;
+    std::string m_EventType;
     std::string m_instrument;
 
 };

@@ -16,7 +16,6 @@
 #include <json/writer.h>
 #include <json/value.h>
 
-#if notTests
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
@@ -26,10 +25,6 @@
 #include <Poco/URI.h>
 #include <Poco/Exception.h>
 
-using namespace Poco::Net;
-using namespace Poco;
-#endif
-
 /**
  * @param domain_
  * @param accessToken_
@@ -37,18 +32,16 @@ using namespace Poco;
  * @param instrument_
  * @param eventsQueue_
  */
-StreamingForexPrices::StreamingForexPrices(std::string domain_, std::string accessToken_,
-                                           std::string accountId_, std::string instrument_,
+StreamingForexPrices::StreamingForexPrices(const std::string& domain_, const std::string& accessToken_,
+                                           const std::string& accountId_, const std::string& instrument_,
                                            eventsQueue& eventsQueue_) :
         m_domain(domain_),
         m_accessToken(accessToken_),
         m_accountId(accountId_),
         m_instruments(instrument_),
-        m_eventsQueue(eventsQueue_)                  
-{
+        m_eventsQueue(eventsQueue_)
+{ 
 }
-
-#if notTests
 
 /**
  * @param streamBuffer_
@@ -58,14 +51,11 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
     std::istreambuf_iterator<char> eos; // end-of-range iterator
     std::istreambuf_iterator<char> iit (streamBuffer_); // stream iterator
     
-
     while (iit!=eos) {
         std::ostringstream oss;
         while (*iit != '\n') {
             oss << *iit++;
         }
-    
-        //std::cout << oss.str() << std::endl;
         
         std::string oandaStream = oss.str();
         Json::Value root;   
@@ -80,6 +70,8 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
         }
 
         std::string heartbeat = "heartbeat";
+        
+        // Tick received
         if(oandaStream.find(heartbeat) == std::string::npos)
         {
             // New tick event
@@ -91,11 +83,9 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
             
             std::cout << "New tick event " << oandaStream << "\n";
             m_eventsQueue.emplace(std::unique_ptr<TickEvent>(new TickEvent(instrument, time, bid, ask)));
-            
-            //std::cout << dynamic_cast<TickEvent*>((m_eventsQueue.back()).get())->getTime() << std::endl;
-            //std::cout << "queue size " << m_eventsQueue.size() << std::endl;
         }
-        else
+        // No tick received, but heartbeat
+        else 
         {
             // Print heartbeat
             std::cout << oandaStream << "\n";
@@ -114,12 +104,14 @@ void StreamingForexPrices::streamToQueue()
     //*********************
     // Connect to stream
     //*********************
-    const Context::Ptr context = new Context(Context::CLIENT_USE, "", "", "", Context::VERIFY_NONE, 9, false, "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
+    const Poco::Net::Context::Ptr context = new Poco::Net::Context(Poco::Net::Context::CLIENT_USE, "", "", "", 
+                                                                   Poco::Net::Context::VERIFY_NONE, 9, false, 
+                                                                   "ALL:!ADH:!LOW:!EXP:!MD5:@STRENGTH");
    
     // prepare session
-    URI uri(m_domain + std::string("/v1/prices?accountId=") + m_accountId + std::string("&instruments=") + m_instruments);
+    Poco::URI uri(m_domain + std::string("/v1/prices?accountId=") + m_accountId + std::string("&instruments=") + m_instruments);
       
-    HTTPSClientSession session(uri.getHost(), uri.getPort(), context);
+    Poco::Net::HTTPSClientSession session(uri.getHost(), uri.getPort(), context);
     session.setKeepAlive(true);
 
     // prepare path
@@ -130,16 +122,14 @@ void StreamingForexPrices::streamToQueue()
      }
 
     // send request
-    HTTPRequest req(HTTPRequest::HTTP_GET, path, HTTPMessage::HTTP_1_1);
+    Poco::Net::HTTPRequest req(Poco::Net::HTTPRequest::HTTP_GET, path, Poco::Net::HTTPMessage::HTTP_1_1);
     req.set("Authorization", std::string("Bearer ") + m_accessToken);
     session.sendRequest(req);
 
     // get response
-    HTTPResponse res;
+    Poco::Net::HTTPResponse res;
     std::istream& stream = session.receiveResponse(res);
     
     // handle stream
     handleStream(stream.rdbuf());
 }
-
-#endif

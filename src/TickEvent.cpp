@@ -21,7 +21,7 @@ TickEvent::TickEvent()
  * @param bid_
  * @param ask_
  */
-TickEvent::TickEvent(std::string instrument_, std::string time_, 
+TickEvent::TickEvent(const std::string& instrument_, const std::string& time_, 
                      double bid_, double ask_) :
         Event("TICK", instrument_),
         m_time(time_),
@@ -48,7 +48,7 @@ std::string TickEvent::getTime() const
 /**
  * @param time_
  */
-void TickEvent::setTime(std::string time_)
+void TickEvent::setTime(const std::string& time_)
 {
     m_time = time_;
 }

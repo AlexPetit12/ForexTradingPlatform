@@ -20,10 +20,10 @@ OrderEvent::OrderEvent() {
  * @param orderType_
  * @param side_
  */
-OrderEvent::OrderEvent(std::string instrument_, int units_,
-                       std::string orderType_, std::string side_) :
+OrderEvent::OrderEvent(const std::string& instrument_, const std::string& unitsQty_,
+                       const std::string& orderType_, const std::string& side_) :
         Event("ORDER", instrument_),
-        m_units(units_),
+        m_unitsQty(unitsQty_),
         m_orderType(orderType_),
         m_side(side_)
 {
@@ -39,17 +39,17 @@ OrderEvent::~OrderEvent()
 /**
  * @return m_units
  */
-int OrderEvent::getUnits() const
+std::string OrderEvent::getUnitsQty() const
 {
-    return m_units;
+    return m_unitsQty;
 }
 
 /**
  * @param units_
  */
-void OrderEvent::setUnits(int units_)
+void OrderEvent::setUnitsQty(const std::string& unitsQty_)
 {
-    m_units = units_;
+    m_unitsQty = unitsQty_;
 }
 
 /**
@@ -63,7 +63,7 @@ std::string OrderEvent::getOrderType() const
 /**
  * @param orderType_
  */
-void OrderEvent::setOrderType(std::string orderType_)
+void OrderEvent::setOrderType(const std::string& orderType_)
 {
     m_orderType = orderType_;
 }
@@ -79,7 +79,7 @@ std::string OrderEvent::getSide() const
 /**
  * @param side_
  */
-void OrderEvent::setSide(std::string side_)
+void OrderEvent::setSide(const std::string& side_)
 {
     m_side = side_;
 }
