@@ -71,7 +71,7 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
 
         std::string heartbeat = "heartbeat";
         
-        // Tick received
+        // Received a tick
         if(oandaStream.find(heartbeat) == std::string::npos)
         {
             // New tick event
@@ -84,7 +84,7 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
             std::cout << "New tick event " << oandaStream << "\n";
             m_eventsQueue.emplace(std::unique_ptr<TickEvent>(new TickEvent(instrument, time, bid, ask)));
         }
-        // No tick received, but heartbeat
+        // No tick received, but heartbeat received
         else 
         {
             // Print heartbeat
