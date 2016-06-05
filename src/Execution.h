@@ -27,6 +27,11 @@ public:
     ~Execution();
     
     void executeOrder(const OrderEvent* pOrderEvent_);
+    void prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& body_);
+    void sendRequest(std::string& body_);
+    void printResponse(std::istream& reponse_);
+    std::istream& receiveResponse();
+    
 private:
     std::string m_domain;
     std::string m_accessToken;
