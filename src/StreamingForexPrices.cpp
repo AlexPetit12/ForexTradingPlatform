@@ -11,11 +11,6 @@
 
 #include <sstream>
 
-#include <json/json.h>
-#include <json/reader.h>
-#include <json/writer.h>
-#include <json/value.h>
-
 #include <Poco/Net/HTTPSClientSession.h>
 #include <Poco/Net/HTTPRequest.h>
 #include <Poco/Net/HTTPResponse.h>
@@ -58,37 +53,19 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
         }
         
         std::string oandaStream = oss.str();
-        Json::Value root;   
-        Json::Reader reader;
-
-        bool parsingSuccessful = reader.parse(oandaStream, root);
-
-        if (!parsingSuccessful)
-        {
-            std::cout  << "Failed to parse" << reader.getFormattedErrorMessages();
-            return;
-        }
 
         std::string heartbeat = "heartbeat";
-        
         // Received a tick
         if(oandaStream.find(heartbeat) == std::string::npos)
         {
-            // New tick event
-            Json::Value tick = root["tick"];
-            std::string instrument = tick.get("instrument", "No instrument found\n").asString();
-            std::string time = tick.get("time", "No time found\n").asString();
-            double bid = tick.get("bid", "No bid found\n").asDouble();
-            double ask = tick.get("ask", "No ask found\n").asDouble();
-            
-            std::cout << "New tick event " << oandaStream << "\n";
-            m_eventsQueue.emplace(std::unique_ptr<TickEvent>(new TickEvent(instrument, time, bid, ask)));
+            // Create new tick event
+            createTickEvent(oandaStream);
         }
         // No tick received, but heartbeat received
         else 
         {
             // Print heartbeat
-            std::cout << oandaStream << "\n";
+            printHeartbeat(oandaStream);
         }
         
         *iit++;
@@ -132,4 +109,66 @@ void StreamingForexPrices::streamToQueue()
     
     // handle stream
     handleStream(stream.rdbuf());
+}
+
+/**
+ * @param json_
+ * @param instrument_
+ * @param time_
+ * @param bid_
+ * @param ask_
+ */
+void StreamingForexPrices::retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_) const
+{
+    Json::Value tick = json_["tick"];
+    instrument_ = tick.get("instrument", "No instrument found\n").asString();
+    time_ = tick.get("time", "No time found\n").asString();
+    bid_ = tick.get("bid", "No bid found\n").asDouble();
+    ask_ = tick.get("ask", "No ask found\n").asDouble();
+}
+
+/**
+ * @param oandaStream_
+ */
+void StreamingForexPrices::createTickEvent(const std::string& oandaStream_)
+{
+    Json::Value root;   
+    Json::Reader reader;
+
+    bool parsingSuccessful = reader.parse(oandaStream_, root);
+
+    if (!parsingSuccessful)
+    {
+        std::cout  << "Failed to parse" << reader.getFormattedErrorMessages();
+        return;
+    }
+
+    // Get values from stream
+    std::string instrument;
+    std::string time;
+    double bid;
+    double ask;
+    retreiveValuesFromStream(root, instrument, time, bid, ask);
+    
+    std::cout << "New tick event " << oandaStream_ << std::endl;
+    emplaceTickEvent(instrument, time, bid, ask);
+}
+
+/**
+ * @param instrument_
+ * @param time_
+ * @param bid_
+ * @param ask_
+ */
+void StreamingForexPrices::emplaceTickEvent(const std::string& instrument_, const std::string& time_, const double bid_, const double ask_)
+{
+    m_eventsQueue.emplace(std::unique_ptr<TickEvent>(new TickEvent(instrument_, time_, bid_, ask_)));
+}
+
+/**
+ * @param heartBeat_
+ */
+void StreamingForexPrices::printHeartbeat(const std::string& heartBeat_) const
+{
+    std::cout << heartBeat_ << std::endl;
 }

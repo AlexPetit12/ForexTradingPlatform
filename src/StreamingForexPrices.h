@@ -13,6 +13,11 @@
 #include <iostream>
 #include <iterator>
 #include <sstream>
+
+#include <json/json.h>
+#include <json/reader.h>
+#include <json/writer.h>
+#include <json/value.h>
     
 /**
  * \class StreamingForexPrices
@@ -26,7 +31,11 @@ public:
  
     void handleStream(std::streambuf* streamBuffer_);
     void streamToQueue();
-
+    void retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_) const;
+    void createTickEvent(const std::string& oandaStream_);
+    void emplaceTickEvent(const std::string& instrument_, const std::string& time_, const double bid_, const double ask_);
+    void printHeartbeat(const std::string& heartBeat_) const;
+    
 private:
     std::string m_domain;
     std::string m_accessToken;
