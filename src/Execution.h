@@ -26,11 +26,11 @@ public:
     Execution(const std::string& domain_, const std::string& accessToken_, const std::string& accountId_);
     ~Execution();
     
-    void executeOrder(const OrderEvent* pOrderEvent_);
-    void prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& body_);
-    void sendRequest(std::string& body_);
-    void printResponse(std::istream& reponse_);
-    std::istream& receiveResponse();
+    void executeOrder(const OrderEvent* pOrderEvent_) const;
+    void prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& body_) const;
+    void sendRequest(const std::string& body_) const;
+    void printResponse(const std::istream& reponse_) const;
+    std::istream& receiveResponse() const;
     
 private:
     std::string m_domain;

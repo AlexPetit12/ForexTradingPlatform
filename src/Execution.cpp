@@ -45,7 +45,7 @@ Execution::~Execution()
 /**
  * @param pOrderEvent_
  */
-void Execution::executeOrder(const OrderEvent* pOrderEvent_)
+void Execution::executeOrder(const OrderEvent* pOrderEvent_) const
 {
     std::string body;
     prepareRequestBody(pOrderEvent_, body);
@@ -66,7 +66,7 @@ void Execution::executeOrder(const OrderEvent* pOrderEvent_)
  * @param pOrderEvent_
  * @param body_
  */
-void Execution::prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& body_)
+void Execution::prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& body_) const
 {
     std::string instrument = pOrderEvent_->getInstrument();
     std::string unitsQty   = pOrderEvent_->getUnitsQty();
@@ -82,7 +82,7 @@ void Execution::prepareRequestBody(const OrderEvent* pOrderEvent_, std::string& 
 /**
  * @param body_
  */
-void Execution::sendRequest(std::string& body_)
+void Execution::sendRequest(const std::string& body_) const
 {
     m_request->setContentLength(body_.length());
     m_request->write(std::cout);
@@ -95,7 +95,7 @@ void Execution::sendRequest(std::string& body_)
 /**
  * @return response
  */
-std::istream& Execution::receiveResponse()
+std::istream& Execution::receiveResponse() const
 {
     Poco::Net::HTTPResponse response;
     std::istream& rs = m_session->receiveResponse(response);
@@ -105,7 +105,7 @@ std::istream& Execution::receiveResponse()
 /**
  * @param reponse_
  */
-void Execution::printResponse(std::istream& reponse_)
+void Execution::printResponse(const std::istream& reponse_) const
 {
     std::cout << reponse_.rdbuf();
 }
