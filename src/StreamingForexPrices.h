@@ -35,6 +35,7 @@ public:
     void createTickEvent(const std::string& oandaStream_);
     void emplaceTickEvent(const std::string& instrument_, const std::string& time_, const double bid_, const double ask_);
     void printHeartbeat(const std::string& heartBeat_) const;
+    bool receivedTick(const std::string& stream_) const;
     
 private:
     std::string m_domain;

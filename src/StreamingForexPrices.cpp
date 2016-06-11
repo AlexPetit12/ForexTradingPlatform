@@ -54,9 +54,8 @@ void StreamingForexPrices::handleStream(std::streambuf* streamBuffer_)
         
         std::string oandaStream = oss.str();
 
-        std::string heartbeat = "heartbeat";
         // Received a tick
-        if(oandaStream.find(heartbeat) == std::string::npos)
+        if(receivedTick(oandaStream))
         {
             // Create new tick event
             createTickEvent(oandaStream);
@@ -171,4 +170,14 @@ void StreamingForexPrices::emplaceTickEvent(const std::string& instrument_, cons
 void StreamingForexPrices::printHeartbeat(const std::string& heartBeat_) const
 {
     std::cout << heartBeat_ << std::endl;
+}
+
+/**
+ * \brief Returns whether or not a stream contains a tick (true) or just a heartbeat (false)
+ * @param stream_
+ */
+bool StreamingForexPrices::receivedTick(const std::string& stream_) const
+{
+    std::string tick = "tick";
+    return stream_.find(tick) != std::string::npos;
 }
