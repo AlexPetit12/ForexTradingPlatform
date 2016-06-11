@@ -107,5 +107,5 @@ std::istream& Execution::receiveResponse() const
  */
 void Execution::printResponse(const std::istream& reponse_) const
 {
-    std::cout << reponse_.rdbuf();
+    std::cout << reponse_.rdbuf() << std::endl;
 }
