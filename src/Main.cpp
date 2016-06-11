@@ -8,7 +8,6 @@
 #include <thread>
 
 #include "StreamingForexPrices.h"
-//#include "TickEvent.h"
 #include "Trading.h"
 #include "Util.h"
 
