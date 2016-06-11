@@ -18,12 +18,12 @@ class OrderEvent : public Event
 {
 public:
     OrderEvent();
-    OrderEvent(const std::string& instrument_, const std::string& unitsQty_,
+    OrderEvent(const std::string& instrument_, const std::string& quantity_,
                const std::string& orderType_, const std::string& side_);
     virtual ~OrderEvent();
     
     std::string getUnitsQty() const;
-    void setUnitsQty(const std::string& unitsQty_);
+    void setUnitsQty(const std::string& quantity_);
     
     std::string getOrderType() const;
     void setOrderType(const std::string& orderType_);
@@ -32,7 +32,7 @@ public:
     void setSide(const std::string& side_);
     
 private:
-    std::string m_unitsQty;
+    std::string m_quantity;
     std::string m_orderType;
     std::string m_side;
 

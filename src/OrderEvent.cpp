@@ -20,10 +20,10 @@ OrderEvent::OrderEvent() {
  * @param orderType_
  * @param side_
  */
-OrderEvent::OrderEvent(const std::string& instrument_, const std::string& unitsQty_,
+OrderEvent::OrderEvent(const std::string& instrument_, const std::string& quantity_,
                        const std::string& orderType_, const std::string& side_) :
         Event("ORDER", instrument_),
-        m_unitsQty(unitsQty_),
+        m_quantity(quantity_),
         m_orderType(orderType_),
         m_side(side_)
 {
@@ -41,15 +41,15 @@ OrderEvent::~OrderEvent()
  */
 std::string OrderEvent::getUnitsQty() const
 {
-    return m_unitsQty;
+    return m_quantity;
 }
 
 /**
  * @param units_
  */
-void OrderEvent::setUnitsQty(const std::string& unitsQty_)
+void OrderEvent::setUnitsQty(const std::string& quantity_)
 {
-    m_unitsQty = unitsQty_;
+    m_quantity = quantity_;
 }
 
 /**
