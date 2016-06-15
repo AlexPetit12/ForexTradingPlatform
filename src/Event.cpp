@@ -19,7 +19,7 @@ Event::Event()
  * @param instrument_
  */
 Event::Event(const std::string& type_, const std::string& instrument_) :
-        m_EventType(type_),
+        m_eventType(type_),
         m_instrument(instrument_)
 {
 }
@@ -33,7 +33,7 @@ Event::~Event()
 
 Event& Event::operator =(const Event& rhs)
 {
-    m_EventType = rhs.getEventType();
+    m_eventType = rhs.getEventType();
     m_instrument = rhs.getInstrument();
 }
 
@@ -42,7 +42,7 @@ Event& Event::operator =(const Event& rhs)
  */
 std::string Event::getEventType() const
 {
-    return m_EventType;
+    return m_eventType;
 }
 
 /**
@@ -50,7 +50,7 @@ std::string Event::getEventType() const
  */
 void Event::setEventType(const std::string& type_)
 {
-    m_EventType = type_;
+    m_eventType = type_;
 }
 
 /**

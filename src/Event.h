@@ -30,7 +30,7 @@ public:
     void setInstrument(const std::string& instrument_);
 
 protected:
-    std::string m_EventType;
+    std::string m_eventType;
     std::string m_instrument;
 
 };
