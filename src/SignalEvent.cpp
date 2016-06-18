@@ -7,7 +7,8 @@
 
 #include "SignalEvent.h"
 
-SignalEvent::SignalEvent() {
+SignalEvent::SignalEvent() 
+{
 }
 
 SignalEvent::SignalEvent(const std::string& instrument_, const std::string& orderType_, 
@@ -19,6 +20,7 @@ SignalEvent::SignalEvent(const std::string& instrument_, const std::string& orde
 }
 
 
-SignalEvent::~SignalEvent() {
+SignalEvent::~SignalEvent() 
+{
 }
 
