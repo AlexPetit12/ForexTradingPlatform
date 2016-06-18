@@ -12,7 +12,7 @@
 
 class TestRandomStrategy {
 public:
-    TestRandomStrategy(const std::string& instrument_, const std::string& unitsQty_, 
+    TestRandomStrategy(const std::string& instrument_, const std::string& quantity_, 
                        eventsQueue& eventsQueue_);
     virtual ~TestRandomStrategy();
     
@@ -20,13 +20,25 @@ public:
     void setTicks(int totalTicks_);
     
     void increaseTicks(int increase_ = 1);
-    void calculateSignals(const TickEvent* pTickEvent_);
+    virtual void calculateSignals(const TickEvent* pTickEvent_);
    
-private:
+protected:
     std::string m_instrument;
-    std::string m_unitsQty;
+    std::string m_quantity;
     eventsQueue& m_eventsQueue;
     int m_ticks;
+    bool m_invested;
+
+};
+
+class TestStrategy: public TestRandomStrategy
+{
+public: 
+    TestStrategy(const std::string& instrument_, const std::string& unitsQty_, 
+                       eventsQueue& eventsQueue_);
+    virtual ~TestStrategy();
+    
+    void calculateSignals(const TickEvent* pTickEvent_) override;
 
 };
 

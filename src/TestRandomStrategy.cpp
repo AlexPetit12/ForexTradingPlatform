@@ -8,6 +8,7 @@
 #include "TestRandomStrategy.h"
 
 #include "OrderEvent.h"
+#include "SignalEvent.h"
 
 #include <array>
 #include <iostream>
@@ -18,12 +19,13 @@
  * @param units_
  * @param eventsQueue_
  */
-TestRandomStrategy::TestRandomStrategy(const std::string& instrument_, const std::string& unitsQty_, 
+TestRandomStrategy::TestRandomStrategy(const std::string& instrument_, const std::string& quantity_, 
                                        eventsQueue& eventsQueue_) :
         m_instrument(instrument_),
-        m_unitsQty(unitsQty_),
+        m_quantity(quantity_),
         m_eventsQueue(eventsQueue_),
-        m_ticks(0)
+        m_ticks(0),
+        m_invested(false)
 {
 }
 
@@ -63,7 +65,9 @@ void TestRandomStrategy::increaseTicks(int increase_)
  */
 void TestRandomStrategy::calculateSignals(const TickEvent* pTickEvent_)
 {
-    if(pTickEvent_->getEventType() == "TICK")
+    std::string eventType = pTickEvent_->getEventType();
+    
+    if(eventType == "TICK")
     {
         if(getTicks() % 2 == 0)
         {
@@ -71,7 +75,35 @@ void TestRandomStrategy::calculateSignals(const TickEvent* pTickEvent_)
             int randomSide = rand() % 2;
             std::string side = sides.at(randomSide);
 	    m_eventsQueue.emplace(std::unique_ptr<OrderEvent>(
-                new OrderEvent(m_instrument, m_unitsQty, "market", side)));
+                new OrderEvent(m_instrument, m_quantity, "market", side)));
+        }
+        increaseTicks();
+    }
+}
+
+/**
+ * @param pTickEvent_
+ */
+void TestStrategy::calculateSignals(const TickEvent* pTickEvent_)
+{
+    std::string eventType = pTickEvent_->getEventType();
+    
+    if(eventType == "TICK")
+    {
+        if(getTicks() % 2 == 0)
+        {
+            if(!m_invested)
+            {
+                m_eventsQueue.emplace(std::unique_ptr<SignalEvent>(
+                    new SignalEvent(m_instrument, "market", "buy")));
+                m_invested = true;
+            }
+            else
+            {
+                m_eventsQueue.emplace(std::unique_ptr<SignalEvent>(
+                    new SignalEvent(m_instrument, "market", "sell")));
+                m_invested = false;
+            }
         }
         increaseTicks();
     }
