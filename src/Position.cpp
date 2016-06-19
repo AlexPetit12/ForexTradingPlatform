@@ -22,11 +22,11 @@ Position::Position()
  * @param averagePrice_
  * @param currentPrice_
  */
-Position::Position(const std::string& side_, const std::string& market_, const std::string& quantity_, 
+Position::Position(const std::string& side_, const std::string& market_, const std::string& units_, 
                    const double& exposure_, const double& averagePrice_, const double& currentPrice_) :
         m_side(side_),
         m_market(market_),
-        m_quantity(quantity_),
+        m_units(units_),
         m_exposure(exposure_),
         m_averagePrice(averagePrice_),
         m_currentPrice(currentPrice_),
