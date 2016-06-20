@@ -22,6 +22,17 @@ public:
     double calculateProfitBase();
     double calculateProfitPercentage();
     void   updatePositionPrice(const double& currentPrice_);
+    void increaseExposureBy(const double& exposureIncrease_);
+    
+    // Setters
+    void setUnits(const std::string& units_);
+    void setExposure(const double& exposure_);
+    void setAveragePrice(const double& averagePrice_);
+    
+    // Getters
+    std::string getUnits() const;
+    double getExposure() const;
+    double getAveragePrice() const;
     
 private:
     std::string m_side;

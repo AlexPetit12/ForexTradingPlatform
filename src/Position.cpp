@@ -83,3 +83,59 @@ void Position::updatePositionPrice(const double& currentPrice_)
     m_profitBase       = calculateProfitBase();
     m_profitPercentage = calculateProfitPercentage();
 }
+
+/**
+ * @param exposureIncrease_
+ */
+void Position::increaseExposureBy(const double& exposureIncrease_)
+{
+    double newExposure = getExposure() + exposureIncrease_;
+    setExposure(newExposure);
+}
+/**
+ * @param units_
+ */
+void Position::setUnits(const std::string& units_) 
+{
+    m_units = units_;
+}
+
+/**
+ * @param averagePrice_
+ */
+void Position::setAveragePrice(const double& averagePrice_) 
+{
+    m_averagePrice = averagePrice_;
+}
+
+/**
+ * @param exposure_
+ */
+void Position::setExposure(const double& exposure_)
+{
+    m_exposure = exposure_;
+}
+
+/**
+ * @return m_units
+ */
+std::string Position::getUnits() const
+{
+    return m_units;
+}
+
+/**
+ * @return m_exposure
+ */
+double Position::getExposure() const
+{
+    return m_exposure;
+}
+
+/**
+ * @return m_averagePrice
+ */
+double Position::getAveragePrice() const
+{
+    return m_averagePrice;
+}
