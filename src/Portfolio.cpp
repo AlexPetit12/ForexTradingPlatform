@@ -42,11 +42,20 @@ bool Portfolio::addPositionsUnits(const std::string& market_, const std::string&
 {
     if(m_positions.find(market_) == m_positions.end())
     {
-        return false; // Market_ type not found in current positions
+        return false; // Market type not found in current positions
     }
-    else
-    {
-        Position* pPosition = m_positions[market_].get();
-        return true;
-    }
+    
+    Position* pPosition = m_positions[market_].get();
+    std::string units = pPosition->getUnits();
+    
+    int newTotalUnits = std::stoi(units) + std::stoi(units_);
+    double newTotalCost = pPosition->getAveragePrice() * std::stoi(units) + addPrice_ * std::stoi(units_);
+    
+    pPosition->increaseExposureBy(exposure_);
+    pPosition->setAveragePrice(newTotalCost / newTotalUnits );
+    pPosition->setUnits(std::to_string(newTotalUnits));
+    pPosition->updatePositionPrice(removePrice_);
+    
+    return true;
+    
 }
