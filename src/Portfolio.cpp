@@ -7,9 +7,17 @@
 
 #include "Portfolio.h"
 
-Portfolio::Portfolio(const std::string& ticker_, eventsQueue& eventsQueue_, const std::string& base_, 
-                     const int& leverage_, const double& equity_, const double& riskPerTrade_) :
-        m_ticker(ticker_),
+/**
+ * @param ticker_
+ * @param eventsQueue_
+ * @param base_
+ * @param leverage_
+ * @param equity_
+ * @param riskPerTrade_
+ */
+Portfolio::Portfolio(StreamingForexPrices& stream_, eventsQueue& eventsQueue_, const std::string& base_, 
+                     const int leverage_, const double equity_, const double riskPerTrade_) :
+        m_stream(stream_),
         m_eventsQueue(eventsQueue_),
         m_base(base_),
         m_leverage(leverage_),
@@ -20,25 +28,46 @@ Portfolio::Portfolio(const std::string& ticker_, eventsQueue& eventsQueue_, cons
 {
 }
 
-
+/**
+ * \brief Destructor
+ */
 Portfolio::~Portfolio() 
 {
 }
 
+/**
+ * @return risk position size
+ */
 int Portfolio::calculateRiskPositionSize()
 {
     return m_equity * m_riskPerTrade;
 }
 
+/**
+ * @param side_
+ * @param market_
+ * @param units_
+ * @param exposure_
+ * @param addPrice_
+ * @param removePrice_
+ */
 void Portfolio::addNewPosition(const std::string& side_, const std::string& market_, const std::string& units_, 
-                               const double& exposure_, const double& addPrice_, const double& removePrice_)
+                               const double exposure_, const double addPrice_, const double removePrice_)
 {
     m_positions.emplace(market_, std::unique_ptr<Position>(new Position(
                         side_, market_, units_, exposure_, addPrice_, removePrice_)));
 }
 
-bool Portfolio::addPositionsUnits(const std::string& market_, const std::string& units_, const double& exposure_, 
-                                  const double& addPrice_, const double& removePrice_)
+/**
+ * @param market_
+ * @param units_
+ * @param exposure_
+ * @param addPrice_
+ * @param removePrice_
+ * @return 
+ */
+bool Portfolio::addPositionsUnits(const std::string& market_, const std::string& units_, const double exposure_, 
+                                  const double addPrice_, const double removePrice_)
 {
     if(m_positions.find(market_) == m_positions.end())
     {
@@ -58,4 +87,104 @@ bool Portfolio::addPositionsUnits(const std::string& market_, const std::string&
     
     return true;
     
+}
+
+/**
+ * @param market_
+ * @param units_
+ * @param removePrice_
+ * @return 
+ */
+bool Portfolio::removePositionsUnits(const std::string& market_, const std::string& units_, const double removePrice_)
+{
+    if(m_positions.find(market_) == m_positions.end())
+    {
+        return false; // Market type not found in current positions
+    }
+    
+    Position* pPosition = m_positions[market_].get();
+    
+    std::string units = pPosition->getUnits();
+    int exposure = std::stoi(units);
+    
+    pPosition->increaseExposureBy(-1 * exposure);
+    pPosition->updatePositionPrice(removePrice_);
+    
+    double pnl = pPosition->calculatePips() * exposure / removePrice_;
+    increaseBalanceBy(pnl);
+    
+    return true;
+}
+
+/**
+ * @param market_
+ * @param removePrice_
+ * @return 
+ */
+bool Portfolio::closePosition(const std::string& market_, const double removePrice_) 
+{
+    if(m_positions.find(market_) == m_positions.end())
+    {
+        return false; // Market type not found in current positions
+    }
+    
+    Position* pPosition = m_positions[market_].get();
+    std::string units = pPosition->getUnits();
+    
+    int exposure = std::stoi(units);
+    pPosition->updatePositionPrice(removePrice_);
+    
+    double pnl = pPosition->calculatePips() * exposure / removePrice_;
+    increaseBalanceBy(pnl);
+    
+    m_positions.erase(market_);
+    
+    return true;
+}
+
+/**
+ * @param pSignalEvent_
+ */
+void Portfolio::executeSignal(const SignalEvent* pSignalEvent_) const
+{
+    std::string side = pSignalEvent_->getSide();
+    std::string market = pSignalEvent_->getInstrument();
+    int units = getUnits();
+    
+    double addPrice = m_stream.getCurrentAsk();
+    double removePrice = m_stream.getCurrentBid();
+    double exposure = double(units);
+}
+
+/**
+ * @param balanceIncrease_
+ */
+void Portfolio::increaseBalanceBy(const double balanceIncrease_)
+{
+    double currentBalance = getBalance();
+    setBalance(currentBalance + balanceIncrease_);
+}
+
+/**
+ * @param balance_
+ */
+void Portfolio::setBalance(const double balance_)
+{
+    m_balance = balance_;
+}
+
+/**
+ * @return m_balance
+ */
+double Portfolio::getBalance() const
+{
+    return m_balance;
+}
+
+/**
+ * @return m_tradeUnits
+ */
+int Portfolio::getUnits() const
+{
+    return m_tradeUnits;
 }
