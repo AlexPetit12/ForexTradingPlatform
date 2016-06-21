@@ -31,11 +31,19 @@ public:
  
     void handleStream(std::streambuf* streamBuffer_);
     void streamToQueue();
-    void retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_) const;
+    void retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_);
     void createTickEvent(const std::string& oandaStream_);
     void emplaceTickEvent(const std::string& instrument_, const std::string& time_, const double bid_, const double ask_);
     void printHeartbeat(const std::string& heartBeat_) const;
     bool receivedTick(const std::string& stream_) const;
+    
+    // Setters
+    void setCurrentBid(const double bid_);
+    void setCurrentAsk(const double ask_);
+    
+    // Getters
+    double getCurrentBid() const;
+    double getCurrentAsk() const;
     
 private:
     std::string m_domain;
@@ -43,6 +51,8 @@ private:
     std::string m_accountId;
     std::string m_instruments;
     eventsQueue& m_eventsQueue;
+    double m_currentBid;
+    double m_currentAsk;
 
 };
 

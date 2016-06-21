@@ -117,13 +117,16 @@ void StreamingForexPrices::streamToQueue()
  * @param bid_
  * @param ask_
  */
-void StreamingForexPrices::retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_) const
+void StreamingForexPrices::retreiveValuesFromStream(const Json::Value& json_, std::string& instrument_, std::string& time_, double& bid_, double& ask_)
 {
     Json::Value tick = json_["tick"];
     instrument_ = tick.get("instrument", "No instrument found\n").asString();
     time_ = tick.get("time", "No time found\n").asString();
     bid_ = tick.get("bid", "No bid found\n").asDouble();
     ask_ = tick.get("ask", "No ask found\n").asDouble();
+    
+    setCurrentBid(bid_);
+    setCurrentAsk(ask_);
 }
 
 /**
@@ -180,4 +183,36 @@ bool StreamingForexPrices::receivedTick(const std::string& stream_) const
 {
     std::string tick = "tick";
     return stream_.find(tick) != std::string::npos;
+}
+
+/**
+ * @param bid_
+ */
+void StreamingForexPrices::setCurrentBid(const double bid_)
+{
+    m_currentBid = bid_;
+}
+
+/**
+ * @param ask_
+ */
+void StreamingForexPrices::setCurrentAsk(const double ask_)
+{
+    m_currentAsk = ask_;
+}
+
+/**
+ * @return m_currentBid
+ */
+double StreamingForexPrices::getCurrentBid() const
+{
+    return m_currentBid;
+}
+
+/**
+ * @return m_currentAsk
+ */
+double StreamingForexPrices::getCurrentAsk() const
+{
+    return m_currentAsk;
 }
