@@ -125,7 +125,7 @@ std::string Position::getUnits() const
 }
 
 /**
- * @return m_exposure
+ * @return double: m_exposure
  */
 double Position::getExposure() const
 {
@@ -133,9 +133,17 @@ double Position::getExposure() const
 }
 
 /**
- * @return m_averagePrice
+ * @return double: m_averagePrice
  */
 double Position::getAveragePrice() const
 {
     return m_averagePrice;
+}
+
+/**
+ * @return std::string: m_side
+ */
+std::string Position::getSide() const
+{
+    return m_side;
 }

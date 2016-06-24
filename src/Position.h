@@ -33,6 +33,7 @@ public:
     std::string getUnits() const;
     double getExposure() const;
     double getAveragePrice() const;
+    std::string getSide() const;
     
 private:
     std::string m_side;
