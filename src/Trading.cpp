@@ -5,7 +5,10 @@
 #include <iostream>
 #include <thread>
 
-void trade(eventsQueue& eventsQueue_, TestRandomStrategy& strategy_, Execution& execution_)
+void trade(eventsQueue& eventsQueue_, 
+           TestRandomStrategy& strategy_, 
+           Portfolio& portfolio_,
+           Execution& execution_)
 {
     while(true)
     {
@@ -28,6 +31,16 @@ void trade(eventsQueue& eventsQueue_, TestRandomStrategy& strategy_, Execution& 
                     return;
                 }
                 strategy_.calculateSignals(pTickEvent);
+            }
+            else if(eventType == "SIGNAL")
+            {
+                std::cout << "SIGNAL\n";
+                SignalEvent* pSignalEvent = dynamic_cast<SignalEvent*>(pEvent);
+                if(pSignalEvent == nullptr)
+                {
+                    std::cout << "nullptr in trade() SIGNAL" << std::endl;
+                }
+                portfolio_.executeSignal(pSignalEvent);
             }
             else if(eventType == "ORDER")
             {
