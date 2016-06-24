@@ -28,7 +28,7 @@ public:
                            const double exposure_, const double addPrice_, const double removePrice_);
     bool removePositionsUnits(const std::string& market_, const std::string& units_, const double removePrice_);
     bool closePosition(const std::string& market_, const double removePrice_);
-    void executeSignal(const SignalEvent* pSignalEvent_) const;
+    void executeSignal(const SignalEvent* pSignalEvent_);
     void increaseBalanceBy(const double balanceIncrease_);
     
     // Setters

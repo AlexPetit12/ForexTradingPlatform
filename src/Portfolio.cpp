@@ -145,7 +145,7 @@ bool Portfolio::closePosition(const std::string& market_, const double removePri
 /**
  * @param pSignalEvent_
  */
-void Portfolio::executeSignal(const SignalEvent* pSignalEvent_) const
+void Portfolio::executeSignal(const SignalEvent* pSignalEvent_)
 {
     std::string side = pSignalEvent_->getSide();
     std::string market = pSignalEvent_->getInstrument();
@@ -154,6 +154,59 @@ void Portfolio::executeSignal(const SignalEvent* pSignalEvent_) const
     double addPrice = m_stream.getCurrentAsk();
     double removePrice = m_stream.getCurrentBid();
     double exposure = double(units);
+    
+    if(m_positions.find(market) == m_positions.end())
+    {
+        // Market type not found in current positions, so create one
+        addNewPosition(side, market, std::to_string(units), exposure, addPrice, removePrice);
+        
+        // New OrderEvent
+        m_eventsQueue.emplace(std::unique_ptr<OrderEvent>(
+                new OrderEvent(market, std::to_string(units), "market", "buy")));
+    }
+    else
+    {
+        Position* pPosition = m_positions[market].get();
+        
+        if(side == pPosition->getSide())
+        {
+            addNewPosition(side, market, std::to_string(units), exposure, addPrice, removePrice);
+        }
+        else
+        {
+            if(units == std::stoi(pPosition->getUnits()))
+            {
+                closePosition(market, removePrice);
+                m_eventsQueue.emplace(std::unique_ptr<OrderEvent>(
+                    new OrderEvent(market, std::to_string(units), "market", "sell")));
+            }
+            else if(units < std::stoi(pPosition->getUnits()))
+            {
+                removePositionsUnits(market, std::to_string(units), removePrice);
+            }
+            else
+            {
+                int newUnits = units - std::stoi(pPosition->getUnits());
+                closePosition(market, removePrice);
+            
+            
+                std::string newSide;
+                if(side == "buy")
+                {
+                    newSide = "sell";
+                }
+                else
+                {
+                    newSide = "buy";
+                }
+                
+                double newExposure = units;
+                addNewPosition(newSide, market, std::to_string(newUnits), newExposure, addPrice, removePrice);
+            }
+        }
+    }
+    
+    std::cout << "Balance: " << getBalance() << std::endl;
 }
 
 /**
