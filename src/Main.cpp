@@ -30,11 +30,17 @@ int main(int argc, char** argv)
     Execution execution(apiDomain, accessToken, accountId);
     
     // Strategy
-    TestRandomStrategy strategy(instruments, unitsQty, eventsQueue);
+    TestStrategy strategy(instruments, std::string("0"), eventsQueue);
+    //TestRandomStrategy strategy(instruments, unitsQty, eventsQueue);
+    
+    // Portfolio
+    Portfolio portfolio(stream, eventsQueue, "USD");
     
     // Threads
-    std::thread tradeThread(trade, std::ref(eventsQueue), std::ref(strategy), std::ref(execution));
+    std::thread tradeThread(trade, std::ref(eventsQueue), std::ref(strategy), 
+                                   std::ref(portfolio), std::ref(execution));
     std::thread streamThread(&StreamingForexPrices::streamToQueue, stream);
+    
     tradeThread.join();
     streamThread.join();
     

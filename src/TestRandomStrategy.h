@@ -34,8 +34,9 @@ protected:
 class TestStrategy: public TestRandomStrategy
 {
 public: 
-    TestStrategy(const std::string& instrument_, const std::string& unitsQty_, 
-                       eventsQueue& eventsQueue_);
+    TestStrategy(const std::string& instrument_, 
+                 const std::string& quantity_,
+                 eventsQueue& eventsQueue_);
     virtual ~TestStrategy();
     
     void calculateSignals(const TickEvent* pTickEvent_) override;

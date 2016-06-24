@@ -82,6 +82,28 @@ void TestRandomStrategy::calculateSignals(const TickEvent* pTickEvent_)
 }
 
 /**
+ * @param const std::string& : instrument_
+ * @param eventsQueue& : eventsQueue_
+ */
+
+TestStrategy::TestStrategy(const std::string& instrument_, 
+                           const std::string& quantity_,
+                           eventsQueue& eventsQueue_ ) :
+         TestRandomStrategy(instrument_, "0", eventsQueue_)
+{
+         m_ticks = 0;
+         m_invested = false;
+}
+
+/**
+ * @brief Destructor
+ */
+
+TestStrategy::~TestStrategy()
+{
+}
+
+/**
  * @param pTickEvent_
  */
 void TestStrategy::calculateSignals(const TickEvent* pTickEvent_)
